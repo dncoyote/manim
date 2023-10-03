@@ -18,6 +18,16 @@ class WigglingGraph(Scene):
             e.set_stroke(**kwargs)
 
     def construct(self):
+        # Create a white background rectangle covering the entire frame
+        background = Rectangle(
+            width=config.frame_width,
+            height=config.frame_height,
+            fill_color=WHITE,
+            fill_opacity=1,
+            stroke_width=0,
+        )
+        self.add(background)
+
         def wiggle_graph_updater(graph, dt):
             for key in graph.edges:
                 edge = graph.edges[key]
@@ -45,10 +55,16 @@ class WigglingGraph(Scene):
 
         self.graph_configure(
             graph_mob, jiggle_amplitude=0.3, jiggles_per_second=0.3)
+
+        # Set the stroke color of edges to black
+        self.set_graph_stroke(graph_mob, color=BLACK, width=0.35)
+
         graph_mob.add_updater(wiggle_graph_updater)
-        self.set_graph_stroke(graph_mob, width=0.35)
         self.add(graph_mob)
-        text = Text("Hi! I am Bilal.")
+        # with register_font("BebasNeue-Regular.ttf"):
+        #     text = Text("Hi! I am Bilal.", font_size=72,
+        #                 font="BebasNeue-Regular", color=BLACK)
+        text = Text("Hi! I am Bilal.", color=BLACK)
         text.move_to(ORIGIN)
         self.wait(3)
         self.play(AddTextLetterByLetter(text))
